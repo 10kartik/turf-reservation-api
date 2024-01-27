@@ -1,0 +1,53 @@
+// Documentation URL - https://www.dbml.org/docs/
+// Editor: https://dbdiagram.io/d
+
+Table Admins {
+  id ObjectId [pk]
+  username String
+  passwordHash String
+  bookings Booking
+}
+
+Table TimeSlots {
+  id ObjectId [pk]
+  date Date [index]
+  startTime Time
+  endTime Time
+  status Enum('available', 'booked')
+  bookings Booking
+}
+
+Table Admins {
+  id ObjectId [pk]
+  username String
+  passwordHash String
+  bookings Booking
+}
+
+Table TimeSlots {
+  id ObjectId [pk]
+  date Date
+  startTime Time
+  endTime Time
+  status Enum('available', 'booked')
+  bookings Booking
+}
+
+
+Table Booking {
+  id ObjectId [pk]
+  guestName String
+  guestPhone String
+  guestEmail String
+  admin_id ObjectId [ref: > Admins.id]
+  timeSlot_id ObjectId [ref: > TimeSlots.id]
+  attendees Number
+  status Enum('pending', 'confirmed', 'booked')
+}
+
+Ref: "Admins"."bookings" < "Booking"."admin_id"
+Ref: "TimeSlots"."bookings" < "Booking"."timeSlot_id"
+
+
+Ref: "Admins"."bookings" < "Booking"."admin_id"
+Ref: "TimeSlots"."bookings" < "Booking"."timeSlot_id"
