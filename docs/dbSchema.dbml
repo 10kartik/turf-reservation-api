@@ -3,7 +3,8 @@
 
 Table Admins {
   id ObjectId [pk]
-  username String
+  username String [unique]
+  email String [unique]
   passwordHash String
   bookings Booking
 }
@@ -16,23 +17,6 @@ Table TimeSlots {
   status Enum('available', 'booked')
   bookings Booking
 }
-
-Table Admins {
-  id ObjectId [pk]
-  username String
-  passwordHash String
-  bookings Booking
-}
-
-Table TimeSlots {
-  id ObjectId [pk]
-  date Date
-  startTime Time
-  endTime Time
-  status Enum('available', 'booked')
-  bookings Booking
-}
-
 
 Table Booking {
   id ObjectId [pk]

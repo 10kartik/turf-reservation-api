@@ -38,58 +38,58 @@ paths:
             type: string
             format: date
       responses:
-        '200':
+        "200":
           description: Successful response with available time slots.
           content:
             application/json:
               example:
                 success: true
                 data:
-                  '2024-12-15':
-                    - id: '12345'
-                      start_time: '08:00'
-                      end_time: '09:30'
-                      status: 'booked'
-                      guest_name: 'Alex Xu'
-                      guest_phone: '+91-9876543210'
-                      guest_email: 'Alex@email.com'
+                  "2024-12-15":
+                    - id: "12345"
+                      start_time: "08:00"
+                      end_time: "09:30"
+                      status: "booked"
+                      guest_name: "Alex Xu"
+                      guest_phone: "+91-9876543210"
+                      guest_email: "Alex@email.com"
                       attendees: 10
-                      sports: 'Cricket'
-                    - id: '4567'
-                      start_time: '10:00'
-                      end_time: '12:00'
-                      status: 'booked'
-                      guest_name: 'Sam Lahm'
-                      guest_phone: '+91-9123456780'
-                      guest_email: 'sam@email.com'
+                      sports: "Cricket"
+                    - id: "4567"
+                      start_time: "10:00"
+                      end_time: "12:00"
+                      status: "booked"
+                      guest_name: "Sam Lahm"
+                      guest_phone: "+91-9123456780"
+                      guest_email: "sam@email.com"
                       attendees: 12
-                      sports: 'Cricket'
-                  '2024-12-20':
-                    - id: '11115'
-                      start_time: '08:00'
-                      end_time: '09:40'
-                      status: 'booked'
-                      guest_name: 'Alex Xu'
-                      guest_phone: '+91-9876543210'
-                      guest_email: 'Alex@email.com'
+                      sports: "Cricket"
+                  "2024-12-20":
+                    - id: "11115"
+                      start_time: "08:00"
+                      end_time: "09:40"
+                      status: "booked"
+                      guest_name: "Alex Xu"
+                      guest_phone: "+91-9876543210"
+                      guest_email: "Alex@email.com"
                       attendees: 10
-                      sports: 'Football'
-                    - id: '922567'
-                      start_time: '10:00'
-                      end_time: '12:00'
-                      status: 'booked'
-                      guest_name: 'Sam Lahm'
-                      guest_phone: '+91-9123456780'
-                      guest_email: 'sam@email.com'
+                      sports: "Football"
+                    - id: "922567"
+                      start_time: "10:00"
+                      end_time: "12:00"
+                      status: "booked"
+                      guest_name: "Sam Lahm"
+                      guest_phone: "+91-9123456780"
+                      guest_email: "sam@email.com"
                       attendees: 12
-                      sports: 'Cricket'
+                      sports: "Cricket"
 
-        '400':
+        "400":
           description: Bad request, invalid date format or missing parameter.
           content:
             application/json:
               example:
-                error: 'Invalid date format. Please provide the date in YYYY-MM-DD format.'
+                error: "Invalid date format. Please provide the date in YYYY-MM-DD format."
     post:
       summary: Create a new booking for the selected time slot.
       tags:
@@ -130,7 +130,7 @@ paths:
                   format: string
                   example: "Football"
       responses:
-        '201':
+        "201":
           description: Booking created successfully.
           content:
             application/json:
@@ -138,12 +138,12 @@ paths:
                 success: true
                 data:
                   booking_id: "1a2b3c"
-        '400':
+        "400":
           description: Bad request, invalid data format or missing parameters.
           content:
             application/json:
               example:
-                error: 'Invalid data format. Please provide valid booking details.'
+                error: "Invalid data format. Please provide valid booking details."
   /api/bookings/{bookingId}/confirm-payment:
     put:
       summary: Confirm the payment for the booking.
@@ -157,31 +157,31 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Successful response after confirming payment.
           content:
             application/json:
               example:
                 success: true
-        '404':
+        "404":
           description: Booking not found.
           content:
             application/json:
               example:
-                error: 'Booking not found.'
-        '409':
+                error: "Booking not found."
+        "409":
           description: Payment already confirmed.
           content:
             application/json:
               example:
-                error: 'Payment for this booking has already been confirmed.'
+                error: "Payment for this booking has already been confirmed."
   /api/admin/bookings:
     get:
       summary: Retrieve the list of pending bookings.
       tags:
         - admin
       responses:
-        '200':
+        "200":
           description: Successful response with pending bookings.
           content:
             application/json:
@@ -206,12 +206,12 @@ paths:
                     startTime: "10:00 AM"
                     endTime: "12:00 PM"
                     status: "paid"
-        '404':
+        "404":
           description: No pending bookings found.
           content:
             application/json:
               example:
-                error: 'No pending bookings found.'
+                error: "No pending bookings found."
   /api/admin/bookings/{bookingId}/confirm:
     put:
       summary: Confirm the payment and mark the booking as booked.
@@ -225,7 +225,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Successful response after confirming payment and marking as booked.
           content:
             application/json:
@@ -234,18 +234,18 @@ paths:
                 data:
                   booking_id: "1a2b3c"
                   status: "booked"
-        '404':
+        "404":
           description: Booking not found.
           content:
             application/json:
               example:
-                error: 'Booking not found.'
-        '409':
+                error: "Booking not found."
+        "409":
           description: Booking is already booked.
           content:
             application/json:
               example:
-                error: 'Booking is already booked.'
+                error: "Booking is already booked."
   /api/admin/login:
     post:
       summary: Authenticate user with username and password
@@ -267,7 +267,7 @@ paths:
                   example: password123
                   description: The password of the user
       responses:
-        '200':
+        "200":
           description: Login successful
           content:
             application/json:
@@ -278,18 +278,33 @@ paths:
               description: Cookie containing admin information
               schema:
                 type: string
-        '401':
+        "401":
           description: Unauthorized, invalid credentials
           content:
             application/json:
               example:
                 success: false
                 error: Invalid credentials
-        '500':
+        "500":
           description: Internal Server Error
           content:
             application/json:
               example:
                 success: false
                 error: Internal Server Error
-
+  /api/admin/logout:
+    post:
+      tags:
+        - admin
+      summary: Logs out current logged in admin session
+      responses:
+        "200":
+          description: Successful response after confirming payment and marking as booked.
+          content:
+            application/json:
+              example:
+                success: true
+        "400":
+          description: Invalid request
+        "401":
+          description: Unauthorized - user not logged in

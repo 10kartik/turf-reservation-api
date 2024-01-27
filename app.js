@@ -17,6 +17,9 @@ const basicHelper = require(rootPrefix + "/helpers/basic"),
 const requestSharedNameSpace = createNamespace("turfBookingApiNamespace");
 const apiRoutes = require(rootPrefix + "/routes/index");
 
+const mongoConnection = require("./db/mongoConnection");
+mongoConnection;
+
 const logger = winston.createLogger({
   level: "info",
   format: winston.format.json(),
