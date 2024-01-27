@@ -246,4 +246,50 @@ paths:
             application/json:
               example:
                 error: 'Booking is already booked.'
+  /api/admin/login:
+    post:
+      summary: Authenticate user with username and password
+      tags:
+        - admin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: john_doe
+                  description: The username of the admin
+                password:
+                  type: string
+                  example: password123
+                  description: The password of the user
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              example:
+                success: true
+          headers:
+            admin-cookie:
+              description: Cookie containing admin information
+              schema:
+                type: string
+        '401':
+          description: Unauthorized, invalid credentials
+          content:
+            application/json:
+              example:
+                success: false
+                error: Invalid credentials
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                success: false
+                error: Internal Server Error
 
