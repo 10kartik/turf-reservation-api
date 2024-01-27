@@ -1,0 +1,249 @@
+openapi: 3.0.0
+info:
+  title: Turf Booking API
+  version: 1.0.0
+
+tags:
+  - name: admin
+    description: Admin endpoints
+  - name: guest
+    description: Guest endpoints
+
+paths:
+  /api/bookings:
+    get:
+      summary: Retrieve available time slots for booking.
+      tags:
+        - guest
+      parameters:
+        - name: date
+          in: query
+          description: The specific date for which time slots are requested (YYYY-MM-DD).
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: start_date
+          in: query
+          description: The start date of the range for which time slots are requested (YYYY-MM-DD).
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: end_date
+          in: query
+          description: The end date of the range for which time slots are requested (YYYY-MM-DD).
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Successful response with available time slots.
+          content:
+            application/json:
+              example:
+                success: true
+                data:
+                  '2024-12-15':
+                    - id: '12345'
+                      start_time: '08:00'
+                      end_time: '09:30'
+                      status: 'booked'
+                      guest_name: 'Alex Xu'
+                      guest_phone: '+91-9876543210'
+                      guest_email: 'Alex@email.com'
+                      attendees: 10
+                      sports: 'Cricket'
+                    - id: '4567'
+                      start_time: '10:00'
+                      end_time: '12:00'
+                      status: 'booked'
+                      guest_name: 'Sam Lahm'
+                      guest_phone: '+91-9123456780'
+                      guest_email: 'sam@email.com'
+                      attendees: 12
+                      sports: 'Cricket'
+                  '2024-12-20':
+                    - id: '11115'
+                      start_time: '08:00'
+                      end_time: '09:40'
+                      status: 'booked'
+                      guest_name: 'Alex Xu'
+                      guest_phone: '+91-9876543210'
+                      guest_email: 'Alex@email.com'
+                      attendees: 10
+                      sports: 'Football'
+                    - id: '922567'
+                      start_time: '10:00'
+                      end_time: '12:00'
+                      status: 'booked'
+                      guest_name: 'Sam Lahm'
+                      guest_phone: '+91-9123456780'
+                      guest_email: 'sam@email.com'
+                      attendees: 12
+                      sports: 'Cricket'
+
+        '400':
+          description: Bad request, invalid date format or missing parameter.
+          content:
+            application/json:
+              example:
+                error: 'Invalid date format. Please provide the date in YYYY-MM-DD format.'
+    post:
+      summary: Create a new booking for the selected time slot.
+      tags:
+        - guest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                guest_name:
+                  type: string
+                  example: "Alex"
+                guest_phone:
+                  type: string
+                  example: "+91-9876543210"
+                guest_email:
+                  type: string
+                  example: "Alex@email.com"
+                attendees:
+                  type: integer
+                  example: 12
+                date:
+                  type: string
+                  format: date
+                  example: "2024-27-01"
+                start_time:
+                  type: string
+                  format: time
+                  example: "13:00"
+                end_time:
+                  type: string
+                  format: time
+                  example: "15:00"
+                sports:
+                  type: string
+                  format: string
+                  example: "Football"
+      responses:
+        '201':
+          description: Booking created successfully.
+          content:
+            application/json:
+              example:
+                success: true
+                data:
+                  booking_id: "1a2b3c"
+        '400':
+          description: Bad request, invalid data format or missing parameters.
+          content:
+            application/json:
+              example:
+                error: 'Invalid data format. Please provide valid booking details.'
+  /api/bookings/{bookingId}/confirm-payment:
+    put:
+      summary: Confirm the payment for the booking.
+      tags:
+        - guest
+      parameters:
+        - name: bookingId
+          in: path
+          description: The ID of the booking to confirm payment.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response after confirming payment.
+          content:
+            application/json:
+              example:
+                success: true
+        '404':
+          description: Booking not found.
+          content:
+            application/json:
+              example:
+                error: 'Booking not found.'
+        '409':
+          description: Payment already confirmed.
+          content:
+            application/json:
+              example:
+                error: 'Payment for this booking has already been confirmed.'
+  /api/admin/bookings:
+    get:
+      summary: Retrieve the list of pending bookings.
+      tags:
+        - admin
+      responses:
+        '200':
+          description: Successful response with pending bookings.
+          content:
+            application/json:
+              example:
+                success: true
+                data:
+                  - id: "1a2b3c"
+                    guestName: "John Doe"
+                    guestPhone: "+91-9876543210"
+                    guestEmail: "john@example.com"
+                    attendees: 12
+                    date: "2024-12-15"
+                    startTime: "08:00 AM"
+                    endTime: "09:00 AM"
+                    status: "pending"
+                  - id: "4d5e6f"
+                    guestName: "Jane Doe"
+                    guestPhone: "+91-9876543211"
+                    guestEmail: "jane@example.com"
+                    attendees: 15
+                    date: "2024-12-20"
+                    startTime: "10:00 AM"
+                    endTime: "12:00 PM"
+                    status: "paid"
+        '404':
+          description: No pending bookings found.
+          content:
+            application/json:
+              example:
+                error: 'No pending bookings found.'
+  /api/admin/bookings/{bookingId}/confirm:
+    put:
+      summary: Confirm the payment and mark the booking as booked.
+      tags:
+        - admin
+      parameters:
+        - name: bookingId
+          in: path
+          description: The ID of the booking to confirm payment and mark as booked.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response after confirming payment and marking as booked.
+          content:
+            application/json:
+              example:
+                success: true
+                data:
+                  booking_id: "1a2b3c"
+                  status: "booked"
+        '404':
+          description: Booking not found.
+          content:
+            application/json:
+              example:
+                error: 'Booking not found.'
+        '409':
+          description: Booking is already booked.
+          content:
+            application/json:
+              example:
+                error: 'Booking is already booked.'
+
