@@ -123,6 +123,22 @@ app.post("/", async (req, res) => {
     });
   }
 
+  // if booking record already exists for given date, and start_time then return error
+  const bookingRecordExists = await BookingModel.findOne({
+    booking_date,
+    start_time,
+  });
+
+  if (bookingRecordExists) {
+    return res.status(400).json({
+      success: false,
+      error: {
+        parameter: "booking",
+        message: "booking already exists for given date and start_time",
+      },
+    });
+  }
+
   const bookingRecord = await BookingModel.create({
     guest_name,
     guest_phone,
@@ -146,13 +162,44 @@ app.post("/", async (req, res) => {
     });
   }
 
-  console.log("bookingRecord: ", bookingRecord);
-
   // Return the booking ID as a JSON response
   res.status(201).json({
     success: true,
     data: {
       booking_id: bookingRecord._id,
+    },
+  });
+});
+
+const ObjectId = require("mongoose").Types.ObjectId;
+
+// add /api/booking/:bookingId route
+app.get("/:id", async (req, res) => {
+  // Retrieve the booking ID from the request URL
+  const bookingId = req.params.id;
+
+  // Perform logic to fetch the booking details based on the booking ID
+  let bookingRecord = await BookingModel.findOne({ _id:  new ObjectId(bookingId) });
+
+  // if bookingRecord is not found then return error
+  if (!bookingRecord) {
+    return res.status(400).json({
+      success: false,
+      error: {
+        parameter: "booking",
+        message: "booking not found",
+      },
+    });
+  }
+
+  bookingRecord = bookingRecord.toObject();
+  bookingRecord.status = bookingConstants.statuses[String(bookingRecord.status)];
+
+  // Return the booking details as a JSON response
+  res.status(200).json({
+    success: true,
+    data: {
+      booking: bookingRecord,
     },
   });
 });

@@ -113,7 +113,7 @@ paths:
             application/json:
               example:
                 error: "Invalid data format. Please provide valid booking details."
-  /api/booking/{booking_id}:
+  /api/bookings/{booking_id}:
     get:
       summary: Retrieve booking details by booking ID
       tags:
