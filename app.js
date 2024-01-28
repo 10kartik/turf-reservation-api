@@ -217,6 +217,11 @@ app.use(function (req, res, next) {
   res.status(404).send({ error: "Route Not Found" });
 });
 
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Something went wrong!" });
+});
+
 // If running in development mode, start the server on port 8080, else export handler for lambda
 if (coreConstants.environment === "development") {
   console.log("Server running on 8080");

@@ -85,7 +85,7 @@ paths:
                 date:
                   type: string
                   format: date
-                  example: "2024-27-01"
+                  example: "2024-01-27"
                 start_time:
                   type: string
                   format: time
@@ -113,37 +113,49 @@ paths:
             application/json:
               example:
                 error: "Invalid data format. Please provide valid booking details."
-  /api/bookings/{bookingId}/confirm-payment:
-    put:
-      summary: Confirm the payment for the booking.
+  /api/booking/{booking_id}:
+    get:
+      summary: Retrieve booking details by booking ID
       tags:
         - guest
       parameters:
-        - name: bookingId
+        - name: booking_id
           in: path
-          description: The ID of the booking to confirm payment.
+          description: ID of the booking
           required: true
           schema:
             type: string
+          example: "65b634486977c3aad4a5fa2e"
       responses:
-        "200":
-          description: Successful response after confirming payment.
+        '200':
+          description: Successful response with booking details
           content:
             application/json:
               example:
-                success: true
-        "404":
-          description: Booking not found.
+                booking:
+                  guest_name: "Alex Xu"
+                  guest_phone: "+91-9876543210"
+                  guest_email: "Alex@email.com"
+                  booking_date: "2024-01-28"
+                  start_time: "8"
+                  end_time: "9"
+                  sports: "Cricket"
+                  attendees: 10
+                  status: "CONFIRMED"
+                  admin_id: "65b646e7ef56fc00ce98df42"
+                admin_by_id:
+                  "65b646e7ef56fc00ce98df42":
+                    _id: "65b646e7ef56fc00ce98df42"
+                    username: "admin_1"
+                    name: "Tars"
+                    phone: "1234567890"
+                    email: "admin_1@email.com"
+        '404':
+          description: Booking not found
           content:
             application/json:
               example:
-                error: "Booking not found."
-        "409":
-          description: Payment already confirmed.
-          content:
-            application/json:
-              example:
-                error: "Payment for this booking has already been confirmed."
+                error: "Booking not found"
   /api/admin/bookings:
     get:
       summary: Retrieve the list of pending bookings.
