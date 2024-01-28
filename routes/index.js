@@ -3,4 +3,6 @@ const express = require("express"),
 
 router.use("/admin", require("./admin"));
 
+router.use("/bookings", require("./booking"));
+
 module.exports = router;

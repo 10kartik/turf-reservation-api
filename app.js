@@ -1,5 +1,6 @@
 require("dotenv").config();
 
+const serverless = require("serverless-http");
 const express = require("express"),
   createNamespace = require("continuation-local-storage").createNamespace,
   morgan = require("morgan"),
@@ -213,14 +214,18 @@ app.use(
 
 // middleware to handle 404 errors, dont use response helper.
 app.use(function (req, res, next) {
-  res.status(404).send({ error: "Not found" });
+  res.status(404).send({ error: "Route Not Found" });
 });
 
-const server = app.listen(coreConstants.PORT || 3000, function () {
-  const address = server.address();
-  console.log(
-    `Server is listening on http://${address.address}:${address.port}`
-  );
-});
+// If running in development mode, start the server on port 8080, else export handler for lambda
+if (coreConstants.environment === "development") {
+  console.log("Server running on 8080");
+  app.listen(8080);
+  module.exports = { handler: app };
+} else {
+  // Export the handler for Lambda on production
+  const handler = serverless(app);
+  module.exports = { handler };
+}
 
 module.exports = app;

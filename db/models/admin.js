@@ -6,14 +6,23 @@ const adminSchema = new mongoose.Schema({
     unique: true,
     required: true,
   },
+  name: {
+    type: String,
+    required: true,
+  },
+  phone: {
+    type: String,
+    required: true,
+  },
   email: {
     type: String,
     unique: true,
-    required: true,
+    required: false,
   },
-  passwordHash: {
+  password_hash: {
     type: String,
     required: true,
+    alias: "passwordHash",
   },
 });
 

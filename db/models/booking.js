@@ -1,38 +1,58 @@
 const mongoose = require("mongoose");
 
 const bookingSchema = new mongoose.Schema({
-  guestName: {
+  guest_name: {
     type: String,
     required: true,
+    alias: "guestName",
   },
-  guestPhone: {
+  guest_phone: {
+    type: String,
+    required: false,
+    alias: "guestPhone",
+  },
+  guest_email: {
+    type: String,
+    required: false,
+    alias: "guestEmail",
+  },
+  booking_date: {
     type: String,
     required: true,
+    index: true,
+    alias: "bookingDate",
   },
-  guestEmail: {
+  start_time: {
     type: String,
     required: true,
+    alias: "startTime",
   },
-  admin_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Admins",
+  end_time: {
+    type: String,
     required: true,
+    alias: "endTime",
   },
-  timeSlot_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "TimeSlots",
-    required: true,
+  sport: {
+    type: String,
+    required: false,
   },
   attendees: {
     type: Number,
-    required: true,
+    required: false,
   },
   status: {
+    type: Number,
+    required: true,
+  },
+  admin_id: {
     type: String,
-    enum: ["pending", "confirmed", "booked"],
-    default: "pending",
+    required: false,
+    alias: "adminId",
   },
 });
+
+// Compound index
+bookingSchema.index({ date: 1, start_time: 1 }, { unique: true });
 
 const schemaName = `bookings`;
 
