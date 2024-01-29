@@ -7,6 +7,7 @@ const express = require("express"),
   bodyParser = require("body-parser"),
   helmet = require("helmet"),
   winston = require("winston"),
+  cors = require("cors");
   customUrlParser = require("url");
 
 const rootPrefix = ".";
@@ -164,6 +165,7 @@ const app = express();
 
 // Add id and startTime to request.
 app.use(customMiddleware());
+app.use(cors());
 
 // Load Morgan
 app.use(

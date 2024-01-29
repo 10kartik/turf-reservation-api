@@ -2,7 +2,6 @@ const express = require("express"),
   app = express.Router();
 
 const rootPrefix = "..",
-  sanitizer = require(rootPrefix + "/helpers/sanitizer"),
   AdminModel = require(rootPrefix + "/db/models/admin"),
   BookingModel = require(rootPrefix + "/db/models/booking"),
   bookingConstants = require(rootPrefix +
@@ -13,8 +12,20 @@ app.get("/", async (req, res) => {
   // Retrieve query parameters
   const date = req.decodedParams.date;
 
+  console.log("date", date);
+  // if date is not in format YYYY-MM-DD then return error
+  if (!date.match(/^\d{4}-\d{1,2}-\d{1,2}$/)) {
+    return res.status(400).json({
+      success: false,
+      error: {
+        parameter: "date",
+        message: "date should be in format YYYY-MM-DD",
+      },
+    });
+  }
+
   // fetch all records from booking model for given date
-  const bookings = await BookingModel.find({ date: date });
+  const bookings = await BookingModel.find({ booking_date: date});
 
   //iterate on Array bookings and create a map of date to array of bookings
   const bookingsMap = {};
@@ -74,7 +85,7 @@ app.post("/", async (req, res) => {
 
   // Perform logic to create a new booking based on the provided details
   // if date is not in format YYYY-MM-DD then return error
-  if (!booking_date.match(/^\d{4}-\d{2}-\d{2}$/)) {
+  if (!booking_date || !booking_date.match(/^\d{4}-\d{1,2}-\d{1,2}$/)) {
     return res.status(400).json({
       success: false,
       error: {
@@ -179,7 +190,9 @@ app.get("/:id", async (req, res) => {
   const bookingId = req.params.id;
 
   // Perform logic to fetch the booking details based on the booking ID
-  let bookingRecord = await BookingModel.findOne({ _id:  new ObjectId(bookingId) });
+  let bookingRecord = await BookingModel.findOne({
+    _id: new ObjectId(bookingId),
+  });
 
   // if bookingRecord is not found then return error
   if (!bookingRecord) {
@@ -193,7 +206,8 @@ app.get("/:id", async (req, res) => {
   }
 
   bookingRecord = bookingRecord.toObject();
-  bookingRecord.status = bookingConstants.statuses[String(bookingRecord.status)];
+  bookingRecord.status =
+    bookingConstants.statuses[String(bookingRecord.status)];
 
   // Return the booking details as a JSON response
   res.status(200).json({
