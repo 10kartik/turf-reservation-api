@@ -72,7 +72,7 @@ app.get("/", async (req, res) => {
 // API endpoint to create a new booking
 app.post("/", async (req, res) => {
   // Retrieve the booking details from the request body
-  const {
+  let {
     guest_name,
     guest_phone,
     guest_email,
@@ -80,8 +80,11 @@ app.post("/", async (req, res) => {
     booking_date,
     start_time,
     end_time,
-    sports,
+    sport,
   } = req.decodedParams;
+
+  start_time = parseInt(start_time);
+  end_time = parseInt(end_time);
 
   // Perform logic to create a new booking based on the provided details
   // if date is not in format YYYY-MM-DD then return error
@@ -158,7 +161,7 @@ app.post("/", async (req, res) => {
     start_time,
     end_time,
     attendees,
-    sports,
+    sport,
     status: bookingConstants.invertedStatuses[bookingConstants.pendingStatus],
   });
 
