@@ -165,7 +165,12 @@ const app = express();
 
 // Add id and startTime to request.
 app.use(customMiddleware());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 // Load Morgan
 app.use(
@@ -222,6 +227,15 @@ app.use(function (req, res, next) {
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: "Something went wrong!" });
+});
+
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
 });
 
 // If running in development mode, start the server on port 8080, else export handler for lambda
