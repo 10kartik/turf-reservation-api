@@ -46,6 +46,31 @@ router.post("/login", async function (req, res) {
 router.use(cookieParser());
 router.use(jwtVerifyToken);
 
+// add current admin API route
+router.get("/current", async function (req, res) {
+  if (!req.admin) {
+    return res.status(401).json({
+      success: false,
+      message: "Unauthorized. User not logged in.",
+    });
+  }
+  const adminRecord = await adminModel
+    .findOne({ _id: req.admin.id })
+    .select("-password_hash");
+
+  if (!adminRecord) {
+    return res.status(404).json({
+      success: false,
+      message: "Admin not found",
+    });
+  }
+
+  return res.status(200).json({
+    success: true,
+    data: adminRecord,
+  });
+});
+
 router.post("/logout", function (req, res) {
   res.clearCookie("admin-cookie");
   return res.send({ success: true });

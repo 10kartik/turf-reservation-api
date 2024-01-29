@@ -273,6 +273,32 @@ paths:
               example:
                 success: false
                 error: Internal Server Error
+  /api/admin/current:
+    get:
+      summary: Get details of the currently logged-in admin user.
+      tags:
+        - admin
+      responses:
+        '200':
+          description: Successful response with admin user details.
+          content:
+            application/json:
+              example:
+                success: true
+                data:
+                  _id: '65b646e7ef56fc00ce98df40'
+                  username: 'admin_1'
+                  name: 'Tars'
+                  phone: '1234567890'
+                  email: 'admin_1@email.com'
+                  __v: 0
+        '401':
+          description: Unauthorized. User not logged in.
+          content:
+            application/json:
+              example:
+                success: false
+                error: 'Unauthorized. User not logged in.'
   /api/admin/logout:
     post:
       tags:

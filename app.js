@@ -229,8 +229,7 @@ if (coreConstants.environment === "development") {
   module.exports = { handler: app };
 } else {
   // Export the handler for Lambda on production
-  const handler = serverless(app);
-  module.exports = { handler };
+  module.exports.handler = serverless(app);
 }
 
 module.exports = app;
