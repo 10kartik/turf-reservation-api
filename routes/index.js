@@ -1,12 +1,8 @@
 const express = require("express"),
   router = express.Router();
 
-const rootPrefix = "../",
-  sanitizer = require(rootPrefix + "/helpers/sanitizer");
+router.use("/admin", require("./admin"));
 
-// Define routes.
-router.get("/", function (req, res) {
-  res.send("Hello World!");
-});
+router.use("/bookings", require("./booking"));
 
 module.exports = router;

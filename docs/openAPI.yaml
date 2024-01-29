@@ -23,73 +23,42 @@ paths:
           schema:
             type: string
             format: date
-        - name: start_date
-          in: query
-          description: The start date of the range for which time slots are requested (YYYY-MM-DD).
-          required: false
-          schema:
-            type: string
-            format: date
-        - name: end_date
-          in: query
-          description: The end date of the range for which time slots are requested (YYYY-MM-DD).
-          required: false
-          schema:
-            type: string
-            format: date
       responses:
-        '200':
+        "200":
           description: Successful response with available time slots.
           content:
             application/json:
               example:
                 success: true
                 data:
-                  '2024-12-15':
-                    - id: '12345'
-                      start_time: '08:00'
-                      end_time: '09:30'
-                      status: 'booked'
-                      guest_name: 'Alex Xu'
-                      guest_phone: '+91-9876543210'
-                      guest_email: 'Alex@email.com'
+                "booking_by_date":
+                  "2024-12-15":
+                    - _id: "12345"
+                      guest_name: "Alex Xu"
+                      guest_phone: "+91-9876543210"
+                      guest_email: "Alex@email.com"
+                      booking_date: "2024-01-28"
+                      start_time: "8"
+                      end_time: "9"
+                      sports: "Cricket"
                       attendees: 10
-                      sports: 'Cricket'
-                    - id: '4567'
-                      start_time: '10:00'
-                      end_time: '12:00'
-                      status: 'booked'
-                      guest_name: 'Sam Lahm'
-                      guest_phone: '+91-9123456780'
-                      guest_email: 'sam@email.com'
-                      attendees: 12
-                      sports: 'Cricket'
-                  '2024-12-20':
-                    - id: '11115'
-                      start_time: '08:00'
-                      end_time: '09:40'
-                      status: 'booked'
-                      guest_name: 'Alex Xu'
-                      guest_phone: '+91-9876543210'
-                      guest_email: 'Alex@email.com'
-                      attendees: 10
-                      sports: 'Football'
-                    - id: '922567'
-                      start_time: '10:00'
-                      end_time: '12:00'
-                      status: 'booked'
-                      guest_name: 'Sam Lahm'
-                      guest_phone: '+91-9123456780'
-                      guest_email: 'sam@email.com'
-                      attendees: 12
-                      sports: 'Cricket'
+                      status: "CONFIRMED"
+                      admin_id: "65b646e7ef56fc00ce98df42"
+                "admin_by_id":
+                  "65b646e7ef56fc00ce98df42": 
+                    _id: "65b646e7ef56fc00ce98df42"
+                    username: "admin_1"
+                    name: "Tars"
+                    phone: "1234567890"
+                    email: "admin_1@email.com"
+            
 
-        '400':
+        "400":
           description: Bad request, invalid date format or missing parameter.
           content:
             application/json:
               example:
-                error: 'Invalid date format. Please provide the date in YYYY-MM-DD format.'
+                error: "Invalid date format. Please provide the date in YYYY-MM-DD format."
     post:
       summary: Create a new booking for the selected time slot.
       tags:
@@ -116,7 +85,7 @@ paths:
                 date:
                   type: string
                   format: date
-                  example: "2024-27-01"
+                  example: "2024-01-27"
                 start_time:
                   type: string
                   format: time
@@ -130,7 +99,7 @@ paths:
                   format: string
                   example: "Football"
       responses:
-        '201':
+        "201":
           description: Booking created successfully.
           content:
             application/json:
@@ -138,50 +107,62 @@ paths:
                 success: true
                 data:
                   booking_id: "1a2b3c"
-        '400':
+        "400":
           description: Bad request, invalid data format or missing parameters.
           content:
             application/json:
               example:
-                error: 'Invalid data format. Please provide valid booking details.'
-  /api/bookings/{bookingId}/confirm-payment:
-    put:
-      summary: Confirm the payment for the booking.
+                error: "Invalid data format. Please provide valid booking details."
+  /api/bookings/{booking_id}:
+    get:
+      summary: Retrieve booking details by booking ID
       tags:
         - guest
       parameters:
-        - name: bookingId
+        - name: booking_id
           in: path
-          description: The ID of the booking to confirm payment.
+          description: ID of the booking
           required: true
           schema:
             type: string
+          example: "65b634486977c3aad4a5fa2e"
       responses:
         '200':
-          description: Successful response after confirming payment.
+          description: Successful response with booking details
           content:
             application/json:
               example:
-                success: true
+                booking:
+                  guest_name: "Alex Xu"
+                  guest_phone: "+91-9876543210"
+                  guest_email: "Alex@email.com"
+                  booking_date: "2024-01-28"
+                  start_time: "8"
+                  end_time: "9"
+                  sports: "Cricket"
+                  attendees: 10
+                  status: "CONFIRMED"
+                  admin_id: "65b646e7ef56fc00ce98df42"
+                admin_by_id:
+                  "65b646e7ef56fc00ce98df42":
+                    _id: "65b646e7ef56fc00ce98df42"
+                    username: "admin_1"
+                    name: "Tars"
+                    phone: "1234567890"
+                    email: "admin_1@email.com"
         '404':
-          description: Booking not found.
+          description: Booking not found
           content:
             application/json:
               example:
-                error: 'Booking not found.'
-        '409':
-          description: Payment already confirmed.
-          content:
-            application/json:
-              example:
-                error: 'Payment for this booking has already been confirmed.'
+                error: "Booking not found"
   /api/admin/bookings:
     get:
       summary: Retrieve the list of pending bookings.
       tags:
         - admin
       responses:
-        '200':
+        "200":
           description: Successful response with pending bookings.
           content:
             application/json:
@@ -206,12 +187,12 @@ paths:
                     startTime: "10:00 AM"
                     endTime: "12:00 PM"
                     status: "paid"
-        '404':
+        "404":
           description: No pending bookings found.
           content:
             application/json:
               example:
-                error: 'No pending bookings found.'
+                error: "No pending bookings found."
   /api/admin/bookings/{bookingId}/confirm:
     put:
       summary: Confirm the payment and mark the booking as booked.
@@ -225,7 +206,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Successful response after confirming payment and marking as booked.
           content:
             application/json:
@@ -234,18 +215,18 @@ paths:
                 data:
                   booking_id: "1a2b3c"
                   status: "booked"
-        '404':
+        "404":
           description: Booking not found.
           content:
             application/json:
               example:
-                error: 'Booking not found.'
-        '409':
+                error: "Booking not found."
+        "409":
           description: Booking is already booked.
           content:
             application/json:
               example:
-                error: 'Booking is already booked.'
+                error: "Booking is already booked."
   /api/admin/login:
     post:
       summary: Authenticate user with username and password
@@ -267,7 +248,7 @@ paths:
                   example: password123
                   description: The password of the user
       responses:
-        '200':
+        "200":
           description: Login successful
           content:
             application/json:
@@ -278,18 +259,59 @@ paths:
               description: Cookie containing admin information
               schema:
                 type: string
-        '401':
+        "401":
           description: Unauthorized, invalid credentials
           content:
             application/json:
               example:
                 success: false
                 error: Invalid credentials
-        '500':
+        "500":
           description: Internal Server Error
           content:
             application/json:
               example:
                 success: false
                 error: Internal Server Error
-
+  /api/admin/current:
+    get:
+      summary: Get details of the currently logged-in admin user.
+      tags:
+        - admin
+      responses:
+        '200':
+          description: Successful response with admin user details.
+          content:
+            application/json:
+              example:
+                success: true
+                data:
+                  _id: '65b646e7ef56fc00ce98df40'
+                  username: 'admin_1'
+                  name: 'Tars'
+                  phone: '1234567890'
+                  email: 'admin_1@email.com'
+                  __v: 0
+        '401':
+          description: Unauthorized. User not logged in.
+          content:
+            application/json:
+              example:
+                success: false
+                error: 'Unauthorized. User not logged in.'
+  /api/admin/logout:
+    post:
+      tags:
+        - admin
+      summary: Logs out current logged in admin session
+      responses:
+        "200":
+          description: Successful response after confirming payment and marking as booked.
+          content:
+            application/json:
+              example:
+                success: true
+        "400":
+          description: Invalid request
+        "401":
+          description: Unauthorized - user not logged in
