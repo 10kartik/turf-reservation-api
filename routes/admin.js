@@ -34,11 +34,11 @@ router.post("/login", async function (req, res) {
       httpOnly: true,
     });
 
-    return res.send({ success: true });
+    return res.status(200).json({ success: true });
   } else {
-    return res.send({
+    return res.status(401).json({
       success: false,
-      message: "Login failed - Invalid Crendentials",
+      message: "Unauthorized. Incorrect username or password.",
     });
   }
 });

@@ -169,7 +169,8 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://4jxbqpgv5syewgthgepbknlswi0tyosy.lambda-url.us-east-1.on.aws/",
+      /turf-reservation-.*\.vercel\.app$/,
+      "https://turf-reservation-web.vercel.app/",
     ],
     credentials: true,
   })
