@@ -8,7 +8,7 @@ const express = require("express"),
   helmet = require("helmet"),
   winston = require("winston"),
   cors = require("cors");
-  customUrlParser = require("url");
+customUrlParser = require("url");
 
 const rootPrefix = ".";
 const basicHelper = require(rootPrefix + "/helpers/basic"),
@@ -167,7 +167,10 @@ const app = express();
 app.use(customMiddleware());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: [
+      "http://localhost:3000",
+      "https://4jxbqpgv5syewgthgepbknlswi0tyosy.lambda-url.us-east-1.on.aws/",
+    ],
     credentials: true,
   })
 );
@@ -245,7 +248,6 @@ if (coreConstants.environment === "development") {
   module.exports = { handler: app };
 } else {
   // Export the handler for Lambda on production
+  console.log("Exporting handler for lambda");
   module.exports.handler = serverless(app);
 }
-
-module.exports = app;
