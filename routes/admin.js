@@ -32,6 +32,8 @@ router.post("/login", async function (req, res) {
     res.cookie("admin-cookie", token, {
       maxAge: 900000,
       httpOnly: true,
+      sameSite: "none",
+      secure: true,
     });
 
     return res.status(200).json({ success: true });
