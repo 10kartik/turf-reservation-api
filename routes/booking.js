@@ -25,7 +25,7 @@ app.get("/", async (req, res) => {
   }
 
   // fetch all records from booking model for given date
-  const bookings = await BookingModel.find({ booking_date: date});
+  const bookings = await BookingModel.find({ booking_date: date });
 
   //iterate on Array bookings and create a map of date to array of bookings
   const bookingsMap = {};
@@ -141,6 +141,7 @@ app.post("/", async (req, res) => {
   const bookingRecordExists = await BookingModel.findOne({
     booking_date,
     start_time,
+    end_time,
   });
 
   if (bookingRecordExists) {

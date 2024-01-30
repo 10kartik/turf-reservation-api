@@ -45,13 +45,12 @@ paths:
                       status: "CONFIRMED"
                       admin_id: "65b646e7ef56fc00ce98df42"
                 "admin_by_id":
-                  "65b646e7ef56fc00ce98df42": 
+                  "65b646e7ef56fc00ce98df42":
                     _id: "65b646e7ef56fc00ce98df42"
                     username: "admin_1"
                     name: "Tars"
                     phone: "1234567890"
                     email: "admin_1@email.com"
-            
 
         "400":
           description: Bad request, invalid date format or missing parameter.
@@ -127,7 +126,7 @@ paths:
             type: string
           example: "65b634486977c3aad4a5fa2e"
       responses:
-        '200':
+        "200":
           description: Successful response with booking details
           content:
             application/json:
@@ -150,7 +149,7 @@ paths:
                     name: "Tars"
                     phone: "1234567890"
                     email: "admin_1@email.com"
-        '404':
+        "404":
           description: Booking not found
           content:
             application/json:
@@ -173,6 +172,7 @@ paths:
                     guestName: "John Doe"
                     guestPhone: "+91-9876543210"
                     guestEmail: "john@example.com"
+                    sports: "Cricket"
                     attendees: 12
                     date: "2024-12-15"
                     startTime: "08:00 AM"
@@ -182,6 +182,7 @@ paths:
                     guestName: "Jane Doe"
                     guestPhone: "+91-9876543211"
                     guestEmail: "jane@example.com"
+                    sports: "Football"
                     attendees: 15
                     date: "2024-12-20"
                     startTime: "10:00 AM"
@@ -212,9 +213,6 @@ paths:
             application/json:
               example:
                 success: true
-                data:
-                  booking_id: "1a2b3c"
-                  status: "booked"
         "404":
           description: Booking not found.
           content:
@@ -279,26 +277,26 @@ paths:
       tags:
         - admin
       responses:
-        '200':
+        "200":
           description: Successful response with admin user details.
           content:
             application/json:
               example:
                 success: true
                 data:
-                  _id: '65b646e7ef56fc00ce98df40'
-                  username: 'admin_1'
-                  name: 'Tars'
-                  phone: '1234567890'
-                  email: 'admin_1@email.com'
+                  _id: "65b646e7ef56fc00ce98df40"
+                  username: "admin_1"
+                  name: "Tars"
+                  phone: "1234567890"
+                  email: "admin_1@email.com"
                   __v: 0
-        '401':
+        "401":
           description: Unauthorized. User not logged in.
           content:
             application/json:
               example:
                 success: false
-                error: 'Unauthorized. User not logged in.'
+                error: "Unauthorized. User not logged in."
   /api/admin/logout:
     post:
       tags:

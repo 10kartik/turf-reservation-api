@@ -143,7 +143,7 @@ router.put("/bookings/:id/confirm", async function (req, res) {
     bookingRecord.status !==
     Number(bookingConstants.invertedStatuses[bookingConstants.pendingStatus])
   ) {
-    return res.status(400).json({
+    return res.status(409).json({
       success: false,
       message: "Booking already confirmed",
     });
