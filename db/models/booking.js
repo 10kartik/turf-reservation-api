@@ -52,7 +52,7 @@ const bookingSchema = new mongoose.Schema({
 });
 
 // Compound index
-bookingSchema.index({ date: 1, start_time: 1 }, { unique: true });
+bookingSchema.index({ date: 1, start_time: 1, end_time: 1 }, { unique: true });
 
 const schemaName = `bookings`;
 

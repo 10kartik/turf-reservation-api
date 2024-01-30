@@ -7,7 +7,8 @@ const express = require("express"),
   bodyParser = require("body-parser"),
   helmet = require("helmet"),
   winston = require("winston"),
-  customUrlParser = require("url");
+  cors = require("cors");
+customUrlParser = require("url");
 
 const rootPrefix = ".";
 const basicHelper = require(rootPrefix + "/helpers/basic"),
@@ -164,6 +165,16 @@ const app = express();
 
 // Add id and startTime to request.
 app.use(customMiddleware());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      /turf-reservation-.*\.vercel\.app$/,
+      "https://turf-reservation-web.vercel.app/",
+    ],
+    credentials: true,
+  })
+);
 
 // Load Morgan
 app.use(
@@ -222,6 +233,15 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: "Something went wrong!" });
 });
 
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
 // If running in development mode, start the server on port 8080, else export handler for lambda
 if (coreConstants.environment === "development") {
   console.log("Server running on 8080");
@@ -229,7 +249,6 @@ if (coreConstants.environment === "development") {
   module.exports = { handler: app };
 } else {
   // Export the handler for Lambda on production
+  console.log("Exporting handler for lambda");
   module.exports.handler = serverless(app);
 }
-
-module.exports = app;

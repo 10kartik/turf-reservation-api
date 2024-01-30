@@ -1,7 +1,7 @@
 const express = require("express"),
   router = express.Router();
 
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 
@@ -32,13 +32,15 @@ router.post("/login", async function (req, res) {
     res.cookie("admin-cookie", token, {
       maxAge: 900000,
       httpOnly: true,
+      sameSite: "none",
+      secure: true,
     });
 
-    return res.send({ success: true });
+    return res.status(200).json({ success: true });
   } else {
-    return res.send({
+    return res.status(401).json({
       success: false,
-      message: "Login failed - Invalid Crendentials",
+      message: "Unauthorized. Incorrect username or password.",
     });
   }
 });

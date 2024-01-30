@@ -3,7 +3,7 @@ const adminModel = require("./models/admin");
 const mongoConnection = require("./mongoConnection");
 mongoConnection;
 
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 const saltRounds = 10;
 

@@ -1,0 +1,222 @@
+{
+	"info": {
+		"_postman_id": "97f6f9e4-47cd-482d-b40a-3ae8ae2a7fe8",
+		"name": "Turf-Booking-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32431770"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"admin_1\",\n    \"password\": \"password_admin_1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{dev}}/api/admin/login",
+					"host": [
+						"{{dev}}"
+					],
+					"path": [
+						"api",
+						"admin",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "current admin",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{dev}}/api/admin/current",
+					"host": [
+						"{{dev}}"
+					],
+					"path": [
+						"api",
+						"admin",
+						"current"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{dev}}/api/admin/logout",
+					"host": [
+						"{{dev}}"
+					],
+					"path": [
+						"api",
+						"admin",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "bookings",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{dev}}/api/bookings?date=2024-1-28",
+					"host": [
+						"{{dev}}"
+					],
+					"path": [
+						"api",
+						"bookings"
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "2024-1-28"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "booking",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"guest_name\": \"Alex\",\n  \"guest_phone\": \"+91-9876543210\",\n  \"guest_email\": \"Alex@email.com\",\n  \"attendees\": 12,\n  \"booking_date\": \"2024-01-28\",\n  \"start_time\": \"17\",\n  \"end_time\": \"18\",\n  \"sports\": \"Football\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{dev}}/api/bookings",
+					"host": [
+						"{{dev}}"
+					],
+					"path": [
+						"api",
+						"bookings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "booking by id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{dev}}/api/bookings/65b7ec49b0fd09b5cbaec362",
+					"host": [
+						"{{dev}}"
+					],
+					"path": [
+						"api",
+						"bookings",
+						"65b7ec49b0fd09b5cbaec362"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "pending booking",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{dev}}/api/admin/bookings",
+					"host": [
+						"{{dev}}"
+					],
+					"path": [
+						"api",
+						"admin",
+						"bookings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm booking",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{dev}}/api/admin/bookings/65b67e71f922056a80774e44/confirm",
+					"host": [
+						"{{dev}}"
+					],
+					"path": [
+						"api",
+						"admin",
+						"bookings",
+						"65b67e71f922056a80774e44",
+						"confirm"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
