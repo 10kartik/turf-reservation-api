@@ -32,26 +32,26 @@ paths:
               example:
                 success: true
                 data:
-                "booking_by_date":
-                  "2024-12-15":
-                    - _id: "12345"
-                      guest_name: "Alex Xu"
-                      guest_phone: "+91-9876543210"
-                      guest_email: "Alex@email.com"
-                      booking_date: "2024-01-28"
-                      start_time: "8"
-                      end_time: "9"
-                      sports: "Cricket"
-                      attendees: 10
-                      status: "CONFIRMED"
-                      admin_id: "65b646e7ef56fc00ce98df42"
-                "admin_by_id":
-                  "65b646e7ef56fc00ce98df42":
-                    _id: "65b646e7ef56fc00ce98df42"
-                    username: "admin_1"
-                    name: "Tars"
-                    phone: "1234567890"
-                    email: "admin_1@email.com"
+                  "booking_by_date":
+                    "2024-12-15":
+                      - _id: "12345"
+                        guest_name: "Alex Xu"
+                        guest_phone: "+91-9876543210"
+                        guest_email: "Alex@email.com"
+                        booking_date: "2024-01-28"
+                        start_time: "8"
+                        end_time: "9"
+                        sports: "Cricket"
+                        attendees: 10
+                        status: "CONFIRMED"
+                        admin_id: "65b646e7ef56fc00ce98df42"
+                  "admin_by_id":
+                    "65b646e7ef56fc00ce98df42":
+                      _id: "65b646e7ef56fc00ce98df42"
+                      username: "admin_1"
+                      name: "Tars"
+                      phone: "1234567890"
+                      email: "admin_1@email.com"
 
         "400":
           description: Bad request, invalid date format or missing parameter.
