@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 const serverless = require("serverless-http");
 const express = require("express"),
   createNamespace = require("continuation-local-storage").createNamespace,
@@ -244,6 +242,7 @@ app.use(function (req, res, next) {
 
 // If running in development mode, start the server on port 8080, else export handler for lambda
 if (coreConstants.environment === "development") {
+  require("dotenv").config();
   console.log("Server running on 8080");
   app.listen(8080);
   module.exports = { handler: app };

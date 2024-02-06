@@ -9,11 +9,7 @@ class MongoDBConnection {
     // Get DB configs from environment properties file
     let connectionString = process.env.MONGODB_CONNECTION_STRING;
     connectionString =
-      connectionString +
-      process.env.APP_NAME +
-      "-" +
-      process.env.DB_SUFFIX +
-      "?retryWrites=true&w=majority";
+      connectionString + process.env.APP_NAME + "-" + process.env.DB_SUFFIX;
 
     if (!connectionString) {
       throw new Error("MongoDB connection string not found");
