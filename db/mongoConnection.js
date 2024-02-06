@@ -7,7 +7,13 @@ class MongoDBConnection {
 
   async createConnection() {
     // Get DB configs from environment properties file
-    const connectionString = process.env.MONGODB_CONNECTION_STRING;
+    let connectionString = process.env.MONGODB_CONNECTION_STRING;
+    connectionString =
+      connectionString +
+      process.env.APP_NAME +
+      "-" +
+      process.env.DB_SUFFIX +
+      "?retryWrites=true&w=majority";
 
     if (!connectionString) {
       throw new Error("MongoDB connection string not found");
@@ -27,7 +33,7 @@ class MongoDBConnection {
 
       // Check if the database exists, and if not, create it
       const admin = mongoose.connection.db.admin();
-      const databaseName = "turf-reservation-dev";
+      const databaseName = process.env.APP_NAME + "-" + process.env.DB_SUFFIX;
       const databases = await admin.listDatabases();
       const databaseExists = databases.databases.some(
         (db) => db.name === databaseName
